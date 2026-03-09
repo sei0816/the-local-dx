@@ -28,7 +28,7 @@
                 <div class="hero-badge">Smart & Simpler</div>
                 <h2 class="hero-title">現場の「めんどくさい」を消す。<br><span>簡単で、めちゃくちゃ使えるシステム。</span></h2>
                 <p class="hero-text">
-                    「LINE」と「Google」で、現場のパートさんでも明日からすぐ使える仕組みを。<br>
+                    「LINE」と「Google」と「AI」で、現場のパートさんでも明日からすぐ使える仕組みを。<br>
                     無駄な時間を減らす、オーダーメイドのシステムを開発・提供します。
                 </p>
                 <div class="scroll-indicator">Scroll</div>
@@ -197,10 +197,11 @@
                 <p class="footer-text">そんな些細な疑問からお気軽にご相談ください。</p>
             </div>
 
-            <form action="https://formsubmit.co/shtorishir0816@gmail.com" method="POST" class="contact-form">
-                <!-- フォーム送信後のリダイレクト先（必要あれば） -->
+            <form action="https://formsubmit.co/shtorishir0816@gmail.com" method="POST" class="contact-form"
+                id="contactForm">
+                <!-- フォーム送信後のリダイレクト先 -->
                 <input type="hidden" name="_next" value="https://sei0816.github.io/the-local-system/index.html">
-                <!-- スパム防止のキャプチャ無効化（必要あれば） -->
+                <!-- スパム防止のキャプチャ無効化 -->
                 <input type="hidden" name="_captcha" value="false">
 
                 <div class="form-group">
@@ -219,7 +220,7 @@
                         required></textarea>
                 </div>
 
-                <button type="submit" class="btn-primary-large">この内容で相談する（無料）</button>
+                <button type="submit" class="btn-primary-large">この内容で相談する</button>
             </form>
 
             <div class="footer-bottom">
@@ -228,11 +229,74 @@
         </div>
     </footer>
 
-    <!-- スマホ専用固定CTA -->
-    <div class="mobile-cta">
-        <a href="#contact" class="btn-floating">無料で相談してみる</a>
+    <!-- 確認用モーダル -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <h3 class="modal-title">内容のご確認</h3>
+
+            <div class="confirm-item">
+                <p class="confirm-label">お名前</p>
+                <p class="confirm-value" id="confirmName"></p>
+            </div>
+
+            <div class="confirm-item">
+                <p class="confirm-label">メールアドレス</p>
+                <p class="confirm-value" id="confirmEmail"></p>
+            </div>
+
+            <div class="confirm-item">
+                <p class="confirm-label">ご相談内容</p>
+                <p class="confirm-value" id="confirmMessage"></p>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-modal btn-back" id="backBtn">修正する</button>
+                <button type="button" class="btn-modal btn-send" id="finalSendBtn">この内容で送信</button>
+            </div>
+        </div>
     </div>
 
+    <script>
+        const contactForm = document.getElementById('contactForm');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const backBtn = document.getElementById('backBtn');
+        const finalSendBtn = document.getElementById('finalSendBtn');
+
+        // モーダル内の確認項目を表示する要素
+        const confirmName = document.getElementById('confirmName');
+        const confirmEmail = document.getElementById('confirmEmail');
+        const confirmMessage = document.getElementById('confirmMessage');
+
+        // フォーム送信ボタンが押された時の処理
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault(); // 実際の送信を一旦止める
+
+            // 入力値を取得してモーダルにセット
+            confirmName.textContent = document.getElementById('name').value;
+            confirmEmail.textContent = document.getElementById('email').value;
+            confirmMessage.textContent = document.getElementById('message').value;
+
+            // モーダルを表示
+            modalOverlay.classList.add('active');
+        });
+
+        // 「修正する」ボタンが押された時
+        backBtn.addEventListener('click', function () {
+            modalOverlay.classList.remove('active');
+        });
+
+        // 「この内容で送信」ボタンが押された時
+        finalSendBtn.addEventListener('click', function () {
+            contactForm.submit(); // 実際のフォーム送信を実行
+        });
+
+        // 背景クリックでも閉じる
+        modalOverlay.addEventListener('click', function (e) {
+            if (e.target === modalOverlay) {
+                modalOverlay.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 
 </html>
